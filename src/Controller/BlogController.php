@@ -101,7 +101,7 @@ class BlogController extends AbstractController
      *
      * @param string $categoryName The slugger
      *
-     * @Route("/category/{categoryName}",
+     * @Route("/blog/category/{categoryName}",
      *     defaults={"categoryName" = null},
      *     name="category_show")
      *  @return Response A response instance
@@ -120,7 +120,7 @@ class BlogController extends AbstractController
 
         $category = $this->getDoctrine()
             ->getRepository(Category::class)
-            ->findOneByName(['name' => mb_strtolower($categoryName)])
+            ->findOneByName($categoryName)
             ->getId();
 
         $article = $this->getDoctrine()
