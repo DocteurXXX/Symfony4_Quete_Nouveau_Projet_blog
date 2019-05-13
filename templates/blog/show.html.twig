@@ -1,6 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}{% endblock %}
+
 {% block body %}
-    <h1>{{ titre }}</h1>
+
+    <div>
+        <h1>Real article's title : {{ article.title }}</h1>
+        <h2>Category : {{ article.category.name }}</h2>
+        <p>{{ article.content }}</p>
+    </div>
+
+    <a href="{{ path('homepage') }}">
+        Back to homepage.
+    </a>
 
 {% endblock %}

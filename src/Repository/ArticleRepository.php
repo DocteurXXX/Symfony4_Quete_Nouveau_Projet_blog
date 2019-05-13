@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -47,4 +48,15 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByCategory($category)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.category = :val')
+            ->setParameter('val', $category)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
 }

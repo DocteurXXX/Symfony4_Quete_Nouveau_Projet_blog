@@ -47,4 +47,11 @@ class CategoryRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findOneByName($categoryName): ?Category
+    {
+        return $this->findOneBy($categoryName);
+    }
+
+
 }
