@@ -120,12 +120,15 @@ class BlogController extends AbstractController
 
         $category = $this->getDoctrine()
             ->getRepository(Category::class)
-            ->findOneByName($categoryName)
-            ->getId();
+            ->findOneByName($categoryName);
 
-        $article = $this->getDoctrine()
+
+        $article = $category->getArticles();
+        /*$article = $this->getDoctrine()
             ->getRepository(Article::class)
-            ->findByCategory($category);
+            ->findByCategory($category);*/
+
+
 
 
         if (!$category) {
