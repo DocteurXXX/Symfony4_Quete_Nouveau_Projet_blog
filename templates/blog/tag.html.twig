@@ -2,8 +2,9 @@
 
 {% block body %}
 
-<strong>Tag : {{ tag.name }}</strong>
+<h1>Tag : {{ tag.name }}</h1>
 <ul>
+    <p>Articles taggés "{{ tag.name }}" :</p>
     {% for article in article %}
         <li>
             <a href="{{ path('blog_show', { 'slug' : article.title }) }}">{{ article.title }}</a>

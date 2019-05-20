@@ -16,8 +16,16 @@ class BlogController extends AbstractController
 {
 
     /**
-     * @Route("/blog", name="blog_index")
      * @Route("/", name="homepage")
+     */
+    public function home()
+    {
+        return $this->render('blog/default.html.twig');
+    }
+
+
+    /**
+     * @Route("/blog", name="blog_index")
      */
     public function index()
 
