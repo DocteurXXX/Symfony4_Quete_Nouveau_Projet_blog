@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use Doctrine\ORM\Mapping\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -99,16 +100,17 @@ class BlogController extends AbstractController
     /**
      * Getting a article with a formatted slug for title
      *
-     * @param string $categoryName The slugger
      *
-     * @Route("/blog/category/{categoryName}",
-     *     defaults={"categoryName" = null},
+     *
+     * @Route("/blog/category/{name}",
      *     name="category_show")
+     *
      *  @return Response A response instance
      */
-    public function showByCategory(string $categoryName) : Response
+    public function showByCategory(Category $category) : Response
     {
-        if (!$categoryName) {
+
+       /* if (!$categoryName) {
             throw $this
                 ->createNotFoundException('No slug has been sent to find an article in article\'s table.');
         }
@@ -128,20 +130,19 @@ class BlogController extends AbstractController
             ->getRepository(Article::class)
             ->findByCategory($category);*/
 
-
-
-
-        if (!$category) {
+       /* if (!$category) {
             throw $this->createNotFoundException(
                 'No article with '.$categoryName.' title, found in article\'s table.'
             );
-        }
+        }*/
+
+        $article = $category->getArticles();
 
         return $this->render(
             'blog/category.html.twig',
             [
 
-                'categoryName' => $categoryName,
+                'category' => $category,
                 'article' => $article,
 
             ]
