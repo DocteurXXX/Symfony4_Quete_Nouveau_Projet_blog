@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<strong>Tag : {{ tag.name }}</strong>
+<ul>
+    {% for article in article %}
+        <li>
+            <a href="{{ path('blog_show', { 'slug' : article.title }) }}">{{ article.title }}</a>
+        </li>
+    {% else %}
+        <li>No articles for this tag</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
