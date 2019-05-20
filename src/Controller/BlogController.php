@@ -194,4 +194,22 @@ class BlogController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route("/blog/categorylist/", name="category_list")
+     * @return Response A response instance
+     */
+    public function showByCategoryList() : Response
+    {
+        $category = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->findAll();
+
+        return $this->render(
+            'blog/categorylist.html.twig',
+            [
+                'category' => $category,
+            ]
+        );
+    }
 }
