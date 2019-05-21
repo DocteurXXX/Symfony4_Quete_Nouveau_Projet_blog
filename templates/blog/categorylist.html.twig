@@ -2,13 +2,28 @@
 
 {% block body %}
 
-    <strong>Category List</strong>
+
+
+
+
+    <h1 >Category List</h1>
     <ul>
         {% for category in category %}
             <li>
                 <a href="{{ path('category_show', { 'name': category.name }) }}">{{ category.name }}</a>
             </li>
         {% endfor %}
+        </br>
     </ul>
+    <hr>
+
+    </br>
+    <h2>Ajouter une nouvelle catégorie :</h2>
+
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
 
 {% endblock %}

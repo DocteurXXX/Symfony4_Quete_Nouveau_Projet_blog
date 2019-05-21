@@ -22,6 +22,9 @@ class Category
      */
     private $name;
 
+
+
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="category")
      */
@@ -88,4 +91,6 @@ class Category
 
         return $this;
     }
+
+
 }

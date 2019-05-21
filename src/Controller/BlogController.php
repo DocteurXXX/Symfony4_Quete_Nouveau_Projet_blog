@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 
+
 use Doctrine\ORM\Mapping\Entity;
+use http\Env\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Tag;
+use App\Form\ArticleSearchType;
+use App\Form\CategoryType;
 
 class BlogController extends AbstractController
 {
@@ -29,7 +33,6 @@ class BlogController extends AbstractController
      */
     public function index()
 
-
     {
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
@@ -41,9 +44,12 @@ class BlogController extends AbstractController
             );
         }
 
+
+
         return $this->render(
             'blog/index.html.twig',
-            ['articles' => $articles]
+            ['articles' => $articles,
+            ]
         );
     }
 
@@ -195,21 +201,5 @@ class BlogController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/blog/categorylist/", name="category_list")
-     * @return Response A response instance
-     */
-    public function showByCategoryList() : Response
-    {
-        $category = $this->getDoctrine()
-            ->getRepository(Category::class)
-            ->findAll();
 
-        return $this->render(
-            'blog/categorylist.html.twig',
-            [
-                'category' => $category,
-            ]
-        );
-    }
 }
