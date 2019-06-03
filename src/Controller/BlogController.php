@@ -74,7 +74,7 @@ class BlogController extends AbstractController
      *
      * @param string $slug The slugger
      *
-     * @Route("/{slug}",
+     * @Route("/Article/{slug}",
      *     defaults={"slug" = null},
      *     name="blog_show")
      *  @return Response A response instance

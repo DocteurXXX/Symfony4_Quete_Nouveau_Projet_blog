@@ -21,20 +21,38 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+
+                <!--
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ path('blog_index') }}">Articles list <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('category_list') }}">Categories list</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('tag_list') }}" tabindex="-1" aria-disabled="true">Tag List</a>
-                </li>
+                -->
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('article_index') }}" tabindex="-1" aria-disabled="true">Articles list (CRUD)</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('category_list') }}">Categories list</a>
+                </li>
+
+                <!--
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('tag_list') }}" tabindex="-1" aria-disabled="true">Tag List</a>
+                </li>
+                -->
+
+                <li class="nav-item">
+                    {% if app.user %}
+                        <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                    {% endif %}
+                </li>
+
+
+
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
