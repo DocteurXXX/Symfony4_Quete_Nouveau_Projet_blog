@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+    <h1>Vous avez créé un nouvel article</h1>
+
+    Les informations relatives à votre articles sont les suivantes :<br/>
+    Titre : {{ article.title }} <br/>
+    Contenu : {{ article.content }} <br/>
+    Lien : http://localhost:8000/article/{{ article.slug }} <br/>
+
+{% endblock %}
