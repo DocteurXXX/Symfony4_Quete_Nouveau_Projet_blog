@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\User;
 use App\Form\ArticleType; 
 use App\Entity\Tag;
 use App\Service\Slugify;
@@ -74,8 +75,12 @@ class ArticleController extends AbstractController
      */
     public function show(Article $article): Response
     {
+
+        $emailUser = $this->getUser();
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
+            'user' => $emailUser
         ]);
     }
 
@@ -87,6 +92,7 @@ class ArticleController extends AbstractController
      */
     public function edit(Request $request, Article $article): Response
     {
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 

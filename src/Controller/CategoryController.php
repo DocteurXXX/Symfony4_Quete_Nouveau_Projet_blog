@@ -16,6 +16,7 @@ use App\Entity\Category;
 use App\Entity\Tag;
 use App\Form\ArticleSearchType;
 use App\Form\CategoryType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 class CategoryController extends AbstractController
@@ -24,6 +25,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/blog/categorylist/", name="category_list")
      * @return Response A response instance
+     * @IsGranted("ROLE_ADMIN")
      */
     public function add(\Symfony\Component\HttpFoundation\Request $request, ObjectManager $manager)
     {

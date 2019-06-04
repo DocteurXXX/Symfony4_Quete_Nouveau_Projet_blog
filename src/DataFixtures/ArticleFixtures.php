@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use Faker;
-use App\Service\Slugify;
 use App\Entity\Article;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -23,6 +22,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
                 ->setContent($faker->paragraph())
                 ->setSlug()
                 ->setCategory($this->getReference('categorie_'.$random));
+
 
             $manager->persist($article);
             $manager->flush();

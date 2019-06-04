@@ -34,15 +34,17 @@
                     <a class="nav-link" href="{{ path('article_index') }}" tabindex="-1" aria-disabled="true">Articles list (CRUD)</a>
                 </li>
 
+                {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('category_list') }}">Categories list</a>
                 </li>
+                {% endif %}
 
-                <!--
+                {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('tag_list') }}" tabindex="-1" aria-disabled="true">Tag List</a>
                 </li>
-                -->
+                {% endif %}
 
                 <li class="nav-item">
                     {% if app.user %}

@@ -22,8 +22,14 @@
                 <td>{{ article.title }}</td>
                 <td>{{ article.content }}</td>
                 <td>
-                    <a href="{{ path('article_show', {'slug': article.slug}) }}">show</a>
-                    <a href="{{ path('article_edit', {'slug': article.slug}) }}">edit</a>
+
+
+                    {% if (is_granted('ROLE_AUTHOR')) or (is_granted('ROLE_ADMIN')) %}
+                         <a href="{{ path('article_show', {'slug': article.slug}) }}">show</a>
+
+                        {% else %}
+                            <a href="{{ path('app_login')}}">Login to access</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
