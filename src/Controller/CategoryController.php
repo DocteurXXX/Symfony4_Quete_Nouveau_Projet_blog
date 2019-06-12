@@ -41,8 +41,11 @@ class CategoryController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $category = $form->getData();
+
             $manager->persist($category);
             $manager->flush();
+
+            $this->addFlash('success', 'Congratulations, a new category has been created');
 
             return $this->redirectToRoute(
                 'category_list'

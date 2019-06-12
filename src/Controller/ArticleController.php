@@ -59,6 +59,9 @@ class ArticleController extends AbstractController
 
             $mailer->send($message);
 
+            // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
+            $this->addFlash('success', 'Congratulations, a new article has been created');
+
             return $this->redirectToRoute('article_index');
         }
 
@@ -101,6 +104,7 @@ class ArticleController extends AbstractController
             $article->setSlug();
 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'The article has been amended');
 
             return $this->redirectToRoute('article_index', [
                 'id' => $article->getId(),
@@ -122,6 +126,7 @@ class ArticleController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
+            $this->addFlash('danger', 'The article has been deleted');
         }
 
         return $this->redirectToRoute('article_index');

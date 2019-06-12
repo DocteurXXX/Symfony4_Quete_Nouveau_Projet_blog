@@ -15,6 +15,8 @@
     </head>
     <body>
 
+
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="{{ path('homepage') }}">Blog de Julien</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,8 +67,20 @@
         </div>
     </nav>
 
+    {% for category, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <div class="container">
-        {% block body %}{% endblock %}
+        {% block body %}
+
+
+
+        {% endblock %}
     </div>
 
 

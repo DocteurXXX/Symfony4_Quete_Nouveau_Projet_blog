@@ -7,6 +7,7 @@ namespace App\Controller;
 use Doctrine\ORM\Mapping\Entity;
 use http\Env\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,9 +32,17 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog", name="blog_index")
      */
-    public function index()
+    public function index(SessionInterface $session) : Response
 
     {
+
+        if (!$session->has('total')) {
+            $session->set('total', 0); // if total doesn’t exist in session, it is initialized.
+        }
+
+        $total = $session->get('total');
+
+
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findAll();

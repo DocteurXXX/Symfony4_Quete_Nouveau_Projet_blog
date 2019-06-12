@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Article index</h1>
 
+    <a href="{{ path('article_new') }}">Create new</a>
+
     <table class="table">
         <thead>
             <tr>
@@ -21,15 +23,16 @@
                 <!-- <td> {{ article.id }}</td> -->
                 <td>{{ article.title }}</td>
                 <td>{{ article.content }}</td>
+
                 <td>
-
-
                     {% if (is_granted('ROLE_AUTHOR')) or (is_granted('ROLE_ADMIN')) %}
                          <a href="{{ path('article_show', {'slug': article.slug}) }}">show</a>
 
                         {% else %}
                             <a href="{{ path('app_login')}}">Login to access</a>
                     {% endif %}
+
+
                 </td>
             </tr>
         {% else %}
@@ -40,5 +43,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('article_new') }}">Create new</a>
+
 {% endblock %}
