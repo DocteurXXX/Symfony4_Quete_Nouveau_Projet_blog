@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\User;
-use App\Form\ArticleType; 
+use App\Form\ArticleType;
 use App\Entity\Tag;
 use App\Service\Slugify;
 use App\Repository\ArticleRepository;
@@ -24,7 +24,7 @@ class ArticleController extends AbstractController
     public function index(ArticleRepository $articleRepository): Response
     {
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articleRepository->findAllWithCategoriesAndTags(),
         ]);
     }
 
@@ -130,5 +130,17 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('article_index');
+    }
+
+
+    /**
+     * @Route("/{id}/favorite", name="article_favorite", methods={"GET","POST"})
+     */
+    public function favorite(ArticleRepository $articleRepository): Response
+    {
+
+        return $this->render('article/index.html.twig', [
+            'articles' => $articleRepository->findAll(),
+        ]);
     }
 }

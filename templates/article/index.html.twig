@@ -13,6 +13,8 @@
                 <!-- <th>Id</th> -->
                 <th>Title</th>
                 <th>Content</th>
+                <th>Tag</th>
+                <th>Category</th>
                 <th>Actions</th>
                 
             </tr>
@@ -23,6 +25,14 @@
                 <!-- <td> {{ article.id }}</td> -->
                 <td>{{ article.title }}</td>
                 <td>{{ article.content }}</td>
+                <td>{% if article.tags is not null %}
+                        {% for article in article.tags %}
+                            {{ article.name }}
+                        {% endfor %}
+                    {% else %}
+                        <p>No tag</p>X
+                    {% endif %}</td>
+                <td>{{ article.category.name }}</td>
 
                 <td>
                     {% if (is_granted('ROLE_AUTHOR')) or (is_granted('ROLE_ADMIN')) %}
