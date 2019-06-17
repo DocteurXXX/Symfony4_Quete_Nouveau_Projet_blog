@@ -58,10 +58,16 @@ class Article
      */
     private $author;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="Favoris")
+     */
+    private $Favoris;
+
 
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->Favoris = new ArrayCollection();
     }
 
     /**
@@ -182,6 +188,34 @@ class Article
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->Favoris;
+    }
+
+    public function addFavori(User $favori): self
+    {
+        if (!$this->Favoris->contains($favori)) {
+            $this->Favoris[] = $favori;
+            $favori->addFavori($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(User $favori): self
+    {
+        if ($this->Favoris->contains($favori)) {
+            $this->Favoris->removeElement($favori);
+            $favori->removeFavori($this);
+        }
 
         return $this;
     }

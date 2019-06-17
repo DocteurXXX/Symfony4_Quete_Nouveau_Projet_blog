@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/article")
@@ -24,7 +25,7 @@ class ArticleController extends AbstractController
     public function index(ArticleRepository $articleRepository): Response
     {
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAllWithCategoriesAndTags(),
+            'articles' => $articleRepository->findAllWithCategories(),
         ]);
     }
 
@@ -96,6 +97,13 @@ class ArticleController extends AbstractController
     public function edit(Request $request, Article $article): Response
     {
 
+        $user = $this->getUser();
+        $author = $article->getAuthor();
+        if ($user != $author && !$this->isGranted('ROLE_ADMIN'))
+        {
+            return $this->redirectToRoute('fuck');
+        }
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -136,11 +144,19 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/favorite", name="article_favorite", methods={"GET","POST"})
      */
-    public function favorite(ArticleRepository $articleRepository): Response
+    public function favorite(Article $article): Response
     {
+        $emailUser = $this->getUser();
 
-        return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
-        ]);
+        $favorite = $this->addFavori($article);
+        $entityManager->addFavori($article);
+        $entityManager->flush();
+
+        return $this->render('article/show.html.twig',
+            [
+                'article' => $article,
+                'user' => $emailUser, $favorite,
+            ]);
+
     }
 }

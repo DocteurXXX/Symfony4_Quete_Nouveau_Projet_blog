@@ -41,3 +41,4 @@ security:
       - { path: ^/article, roles: ROLE_AUTHOR }
       - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
+

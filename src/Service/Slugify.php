@@ -19,7 +19,7 @@ class Slugify
         $input = strtolower(str_replace(" ", "-", $input));
 
         //Suppression ponctuation (sauf -)
-        $input = preg_replace("/[^a-z-]+/i","",$input);
+        $input = preg_replace("/[^a-z-0-9-]+/i","",$input);
 
         // Pas de - successifs
         $input = preg_replace("/[ -]+/","-",$input);
