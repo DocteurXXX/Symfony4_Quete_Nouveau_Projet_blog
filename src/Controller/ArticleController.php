@@ -3,9 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Entity\User;
 use App\Form\ArticleType;
-use App\Entity\Tag;
+use App\Entity\User;
 use App\Service\Slugify;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,8 +23,11 @@ class ArticleController extends AbstractController
      */
     public function index(ArticleRepository $articleRepository): Response
     {
+        $user = $this->getUser();
+
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAllWithCategories(),
+            'articles' => $articleRepository->findAll(),
+            'user'=>$user,
         ]);
     }
 
@@ -55,7 +57,7 @@ class ArticleController extends AbstractController
             $message = (new \Swift_Message('Un nouvel article vient d\'être publié !'))
                 ->setFrom('test@test.fr')
                 ->setTo($to)
-                ->setBody ($this->renderView('article/email/notification.html.twig', [
+                ->setBody($this->renderView('article/email/notification.html.twig', [
                     'article' => $article]), 'text/html');
 
             $mailer->send($message);
@@ -79,12 +81,12 @@ class ArticleController extends AbstractController
      */
     public function show(Article $article): Response
     {
-
-        $emailUser = $this->getUser();
+        $user = $this->getUser();
 
         return $this->render('article/show.html.twig', [
             'article' => $article,
-            'user' => $emailUser
+            'user' => $user,
+            'isFavorite' => $this->getUser()->isFavorite($article)
         ]);
     }
 
@@ -99,8 +101,7 @@ class ArticleController extends AbstractController
 
         $user = $this->getUser();
         $author = $article->getAuthor();
-        if ($user != $author && !$this->isGranted('ROLE_ADMIN'))
-        {
+        if ($user != $author && !$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('fuck');
         }
 
@@ -130,7 +131,7 @@ class ArticleController extends AbstractController
      */
     public function delete(Request $request, Article $article): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
@@ -144,19 +145,18 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/favorite", name="article_favorite", methods={"GET","POST"})
      */
-    public function favorite(Article $article): Response
+    public function favorite(Request $request, Article $article)
     {
-        $emailUser = $this->getUser();
+        $user = $this->getUser();
+        if (!$user->getFavorite()->contains($article)) {
+            $user->addFavorite($article);
+        }else {
+            $user->removeFavorite($article);
+        }
+        $this->getDoctrine()->getManager()->flush();
 
-        $favorite = $this->addFavori($article);
-        $entityManager->addFavori($article);
-        $entityManager->flush();
-
-        return $this->render('article/show.html.twig',
-            [
-                'article' => $article,
-                'user' => $emailUser, $favorite,
-            ]);
-
+        return $this->json([
+            'isFavorite' => $this->getUser()->isFavorite($article)
+        ]);
     }
 }

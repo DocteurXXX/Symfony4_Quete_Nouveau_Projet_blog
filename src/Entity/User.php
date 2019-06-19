@@ -195,28 +195,15 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Article[]
+     * @return boolean
      */
-    public function getFavoris(): Collection
+    public function isFavorite(Article $favorite) :bool
     {
-        return $this->Favoris;
-    }
-
-    public function addFavori(Article $favori): self
-    {
-        if (!$this->Favoris->contains($favori)) {
-            $this->Favoris[] = $favori;
+        if ($this->favorite->contains($favorite)) {
+            return true;
+        } else {
+            return false;
         }
-
-        return $this;
     }
 
-    public function removeFavori(Article $favori): self
-    {
-        if ($this->Favoris->contains($favori)) {
-            $this->Favoris->removeElement($favori);
-        }
-
-        return $this;
-    }
 }

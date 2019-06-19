@@ -16,6 +16,7 @@
                 <th>Tag</th>
                 <th>Category</th>
                 <th>Actions</th>
+                <th>Favoris</th>
                 
             </tr>
         </thead>
@@ -44,6 +45,11 @@
 
 
                 </td>
+                <td>
+
+                        <i id="favorite" class="{{ app.user.isFavorite(article) ? 'fas' : 'far' }} fa-heart"></i>
+
+                </td>
             </tr>
         {% else %}
             <tr>
@@ -52,6 +58,7 @@
         {% endfor %}
         </tbody>
     </table>
+
 
 
 {% endblock %}

@@ -24,6 +24,16 @@
                 <th>Author</th>
                 <td>{{ article.author.email }}</td>
             </tr>
+
+            <tr>
+                <th>Favoris</th>
+                <td>
+                    <a href="#" onclick="addToFavorite()">
+                        <i id="favorite" class="{{ app.user.isFavorite(article) ? 'fas' : 'far' }} fa-heart"></i>
+                    </a>
+                </td>
+            </tr>
+
         </tbody>
     </table>
 
@@ -39,6 +49,25 @@
 
         {{ include('article/_delete_form.html.twig') }}
     {%endif%}
+
+    <script>
+        function addToFavorite()
+        {
+            fetch('{{ path('article_favorite', {'id': article.id}) }}')
+                .then(response => response.json())
+                .then(json => {
+                    let favoriteElt = document.getElementById('favorite');
+                    if (json.isFavorite) {
+                        favoriteElt.classList.remove('far');
+                        favoriteElt.classList.add('fas');
+                    }
+                    else {
+                        favoriteElt.classList.remove('fas');
+                        favoriteElt.classList.add('far');
+                    }
+                });
+        }
+    </script>
 
 
 {% endblock %}
